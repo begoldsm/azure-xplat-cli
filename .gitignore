@@ -8,6 +8,10 @@ targets/*
 *.user
 .ntvs_analysis.*
 *.njsproj
+*.etl
+*.etl.tmp
+*.vspx
+*.njsperf
 
 # Node #
 node_modules/
@@ -23,6 +27,7 @@ out/
 checkstyle-result.xml
 test-result.xml
 iisnode.yml
+*.nupkg
 
 # Mac OS #
 .DS_Store
@@ -39,3 +44,6 @@ Thumbs.db
 
 # Test Logs #
 test/output/*
+
+# Test Files#
+netconfig.json

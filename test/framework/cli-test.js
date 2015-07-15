@@ -13,7 +13,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-require('streamline').register();
 // Test includes
 var fs = require('fs');
 var os = require('os');
@@ -26,7 +25,8 @@ var testLogger = require('./test-logger');
 var adalAuth = require('../../lib/util/authentication/adalAuth');
 var profile = require('../../lib/util/profile');
 var utils = require('../../lib/util/utils');
-var pluginCache = require('../../lib/util/pluginCache');
+var utilsCore = require('../../lib/util/utilsCore');
+
 
 var executeCommand = require('./cli-executor').execute;
 var MockTokenCache = require('./mock-token-cache');
@@ -39,6 +39,8 @@ exports = module.exports = CLITest;
  * Initializes a new instance of the CLITest class.
  * @constructor
  * 
+ * @param {object} mochaSuiteObject - The mocha suite object
+ *
  * @param {string} testPrefix - The prefix to use for the test suite
  * 
  * @param {Array} env - (Optional) Array of environment variables required by the test
@@ -52,14 +54,15 @@ exports = module.exports = CLITest;
  * @param {boolean} forceMocked - (Optional) A boolean value that specifies whether the 
  *                                suite will always run mocked True - Always mocked.
  */
-function CLITest(testPrefix, env, forceMocked) {
+function CLITest(mochaSuiteObject, testPrefix, env, forceMocked) {
+  //mochaSuiteObject could be 'null' when a suite doesn't have recording for playback.
+  this.mochaSuiteObject = mochaSuiteObject;
   if (!Array.isArray(env)) {
     forceMocked = env;
     env = [];
   }
 
   this.testPrefix = this.normalizeTestName(testPrefix);
-  this.currentTest = 0;
   this.setRecordingsDirectory(__dirname + '/../recordings/' + this.testPrefix + '/');
   if (forceMocked) {
     this.isMocked = true;
@@ -88,8 +91,6 @@ function CLITest(testPrefix, env, forceMocked) {
   if (this.isPlayback()) {
     this.setTimeouts();
   }
-
-  pluginCache.clear();
 }
 
 _.extend(CLITest.prototype, {
@@ -121,7 +122,7 @@ _.extend(CLITest.prototype, {
   */
   getTestRecordingsFile: function() {
     this.testRecordingsFile = this.getRecordingsDirectory() + 
-      this.normalizeTestName(testLogger.getCurrentTest()) + ".nock.js";
+    this.normalizeTestName(this.currentTest) + ".nock.js";
     return this.testRecordingsFile;
   },
 
@@ -184,7 +185,7 @@ _.extend(CLITest.prototype, {
     }
 
     executeCommand(cmd, function (result) {
-      utils.readConfig.restore();
+      utilsCore.readConfig.restore();
       if (this.isMocked){
         utils.uuidGen.restore();
       }
@@ -263,7 +264,7 @@ _.extend(CLITest.prototype, {
   * @param {function} callback  A hook to provide the steps to execute before the test starts execution
   */
   setupTest: function (callback) {
-    this.currentTest += 1;
+    this.currentTest = this.mochaSuiteObject.currentTest.fullTitle();
     this.numberOfRandomTestIdGenerated = 0;
     this.currentUuid = 0;
     nockHelper.nockHttp();
@@ -618,13 +619,13 @@ _.extend(CLITest.prototype, {
   forceSuiteMode: function (sinonObj) {
     // Possible it's already wrapped from a previous failed
     // execution. If so, unwrap then rewrap.
-    if (utils.readConfig.restore) {
-      utils.readConfig.restore();
+    if (utilsCore.readConfig.restore) {
+      utilsCore.readConfig.restore();
     }
 
     // Force mode regardless of current stored setting
     var commandMode = this.commandMode;
-    CLITest.wrap(sinonObj, utils, 'readConfig', function (originalReadConfig) {
+    CLITest.wrap(sinonObj, utilsCore, 'readConfig', function (originalReadConfig) {
       return function () {
         var config = originalReadConfig();
         config.mode = commandMode;

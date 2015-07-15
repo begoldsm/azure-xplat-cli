@@ -22,12 +22,11 @@ var should = require('should');
 var sinon = require('sinon');
 var stream = require('stream');
 var util = require('util');
-var azure = require('azure');
 
 var utils = require('../../../lib/util/utils');
 var profile = require('../../../lib/util/profile');
 var AccessTokenCloudCredentials = require('../../../lib/util/authentication/accessTokenCloudCredentials');
-var subscriptionUtils = require('../../../lib/util/profile/subscriptionUtils._js');
+var subscriptionUtils = require('../../../lib/util/profile/subscriptionUtils');
 var testFileDir = './test/data';
 var oneSubscriptionFile = 'account-credentials.publishSettings';
 
@@ -225,7 +224,7 @@ describe('profile', function () {
       };
 
       before(function () {
-        sinon.stub(subscriptionUtils, 'getSubscriptions').callsArgWith(3, null, loginSubscriptions);
+        sinon.stub(subscriptionUtils, 'getSubscriptions').callsArgWith(4, null, loginSubscriptions);
       });
 
       after(function () {
@@ -242,7 +241,7 @@ describe('profile', function () {
 
         sinon.stub(fakeEnvironment, 'acquireToken').callsArgWith(3, null, expectedToken);
 
-        fakeEnvironment.addAccount(loginUser, 'password', function (err, subscriptions) {
+        fakeEnvironment.addAccount(loginUser, 'password', null, false, function (err, subscriptions) {
           subscriptions.forEach(function (s) {
             p.addSubscription(s);
           });
@@ -353,37 +352,6 @@ describe('profile', function () {
 
       it('should set default flag on new current subscription', function () {
         p.currentSubscription.isDefault.should.be.true;
-      });
-    });
-
-    describe('when creating service', function () {
-      var fakeService = { withFilter: function () { return this; } };
-      var factory = sinon.stub().returns(fakeService);
-      var created;
-
-      beforeEach(function () {
-        created = p.currentSubscription.createClient(factory);
-      });
-
-      it('should have called the factory', function () {
-        factory.calledOnce.should.be.true;
-      });
-
-      it('should call factory with expected subscription id', function () {
-        var credentials = factory.args[0][0];
-        credentials.subscriptionId.should.equal(p.currentSubscription.id);
-      });
-
-      it('should have correct key and cert', function () {
-        var credentials = factory.args[0][0];
-        credentials.credentials.should.have.properties({
-          key: p.currentSubscription.managementCertificate.key,
-          cert: p.currentSubscription.managementCertificate.cert
-        });
-      });
-
-      it('should pass CloudCertificateCredentials', function () {
-        factory.args[0][0].should.be.instanceOf(azure.CertificateCloudCredentials);
       });
     });
 

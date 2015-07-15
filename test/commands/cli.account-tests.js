@@ -19,7 +19,6 @@ var should = require('should');
 var sinon = require('sinon');
 var fs = require('fs');
 var util = require('util');
-require('streamline').register();
 
 var adalAuth = require('../../lib/util/authentication/adalAuth');
 var profile = require('../../lib/util/profile');
@@ -27,7 +26,7 @@ var utils = require('../../lib/util/utils');
 
 var CLITest = require('../framework/cli-test');
 var testPrefix = 'cli.account-tests';
-var suite = new CLITest(testPrefix);
+var suite = new CLITest(null, testPrefix);
 
 var testFile = './test/data/account-credentials.publishSettings';
 

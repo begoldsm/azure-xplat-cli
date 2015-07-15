@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-var azure = require('azure');
 var should = require('should');
 var fs = require('fs');
 var azureCommon = require('azure-common');
@@ -45,7 +44,7 @@ describe('cli', function () {
   describe('storage', function() {
 
     before(function (done) {
-      suite = new CLITest(testPrefix, requiredEnvironment);
+      suite = new CLITest(this, testPrefix, requiredEnvironment);
       suite.skipSubscription = true;
 
       if (suite.isMocked) {

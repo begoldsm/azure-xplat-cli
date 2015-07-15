@@ -18,12 +18,10 @@
 var _ = require('underscore');
 var should = require('should');
 var sinon = require('sinon');
-require('streamline').register();
-
 
 var constants = require('../../../lib/util/constants');
 var profile = require('../../../lib/util/profile');
-var subscriptionUtils = require('../../../lib/util/profile/subscriptionUtils._js');
+var subscriptionUtils = require('../../../lib/util/profile/subscriptionUtils');
 
 var expectedUserName = 'user@somedomain.example';
 var expectedPassword = 'sekretPa$$w0rd';
@@ -138,7 +136,7 @@ describe('Environment', function () {
     var subscriptions;
 
     beforeEach(function (done) {
-      environment.addAccount(expectedUserName, expectedPassword, function (err, newSubscriptions) {
+      environment.addAccount(expectedUserName, expectedPassword, '', false, function (err, newSubscriptions) {
         subscriptions = newSubscriptions;
         done();
       });
@@ -160,7 +158,7 @@ describe('Environment', function () {
       password.should.equal(expectedPassword);
 
       var tenantId1 = environment.acquireToken.firstCall.args[2];
-      tenantId1.should.equal(''); // '' mean using the common tenant
+      tenantId1.should.equal(''); // null or '' mean using the common tenant
 
       var tenantId2 = environment.acquireToken.secondCall.args[2];
       tenantId2.should.equal(testTenantIds[0]);
@@ -193,55 +191,35 @@ describe('Environment', function () {
   });
 });
 
-describe('Environment without resource manager endpoint (like AzureChinaCloud)', function () {
+describe('Environment', function () {
   var environment;
-
+  
   before(function () {
     environment = new profile.Environment({
       name: 'TestEnvironment',
-      activeDirectoryEndpointUrl: 'http://notreal.example',
-      commonTenantName: 'common',
-      activeDirectoryResourceId: 'http://login.notreal.example'
+      resourceManagerEndpointUrl: 'https://login.notreal.example/'
     });
-
+    
     sinon.stub(environment, 'acquireToken').callsArgWith(3/*4th parameter of 'acquireToken' is the callback*/,
       null/*no error*/, expectedToken/*the access token*/);
-    sinon.stub(environment, 'getAsmClient').returns(testAsmSubscriptionClient);
-
+    sinon.stub(environment, 'getArmClient').returns(testArmSubscriptionClient);
   });
-
-  describe('When creating account', function () {
+  
+  describe('When creating account with tenant specified', function () {
     var subscriptions;
-
+    
     beforeEach(function (done) {
-      environment.addAccount(expectedUserName, expectedPassword, function (err, newSubscriptions) {
+      environment.addAccount(expectedUserName, expectedPassword, 'niceTenant', false, function (err, newSubscriptions) {
         subscriptions = newSubscriptions;
         done();
       });
     });
-
-    it('should have call to get asm client', function () {
-      environment.getAsmClient.called.should.be.true;
-    });
-
     
-    it('should return a subscription with expected username', function () {
-      should.exist(subscriptions[0].user);
-      subscriptions[0].user.name.should.equal(expectedUserName);
-    });
-
-    it('should return listed subscriptions', function () {
-      subscriptions.should.have.length(expectedASMSubscriptions.length);
-      for(var i = 0, len = subscriptions.length; i < len; ++i) {
-        subscriptions[i].id.should.equal(expectedASMSubscriptions[i].subscriptionId);
-        subscriptions[i].name.should.equal(expectedASMSubscriptions[i].subscriptionName);
-      }
-    });
-
-    it('should have same username for all subscription', function () {
-      subscriptions.forEach(function (s) {
-        s.user.name.should.equal(expectedUserName);
-      });
+    it('should pass expected configuration to token provider', function () {
+      //we should only invoke acquireToken Once because the tenant is provided.
+      var tenantId = environment.acquireToken.firstCall.args[2];
+      tenantId.should.equal('niceTenant');
+      (!!environment.acquireToken.secondCall).should.be.false;
     });
   });
 });

@@ -51,6 +51,10 @@ This project provides a cross-platform command line interface for developers and
     * Manage resource groups and deployments
     * Query and download gallery templates
     * Manage individual resources
+* Key Vault
+    * Create and manage vaults, assign permissions to vaults
+    * Create and manage vault keys, import PEM files into a vault key, obtain key backups
+    * Create and manage secrets, set and retrieve secret values
 
 ## Installation
 
@@ -86,9 +90,9 @@ sudo npm install -g azure-cli
 
 ### Pre-compiled installers
 
-* [Windows](http://go.microsoft.com/fwlink/?linkid=254279)
-* [Mac](http://go.microsoft.com/fwlink/?Linkid=252249) 
-* [Linux](http://go.microsoft.com/fwlink/?linkid=253472)
+* [Windows](http://go.microsoft.com/fwlink/?LinkID=275464&clcid=0x409)
+* [Mac](http://go.microsoft.com/fwlink/?LinkID=253471&clcid=0x409) 
+* [Linux](http://go.microsoft.com/fwlink/?LinkID=253472&clcid=0x409)
 
 ### Download Source Code
 

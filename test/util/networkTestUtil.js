@@ -35,9 +35,12 @@ function networkTestUtil() {
   this.publicIpId = '';
   this.lbaddresspoolId = '';
   this.lbinboundruleId = '';
+  this.lbaddresspoolId2 = '';
+  this.lbinboundruleId2 = '';
   this.nsgId = '';
   this.reversefqdn1 = '';
   this.reversefqdn = '';
+  this.timeout = 800000;
 }
 
 networkTestUtil.prototype.createGroup = function(groupName, location, suite, callback) {
@@ -178,6 +181,13 @@ networkTestUtil.prototype.showLB = function(groupName, LBName, suite, callback) 
     var allResources = JSON.parse(result.text);
     networkTestUtil.lbaddresspoolId = allResources.backendAddressPools[0].id;
     networkTestUtil.lbinboundruleId = allResources.inboundNatRules[0].id;
+
+    if (allResources.backendAddressPools[1] != undefined) {
+      networkTestUtil.lbaddresspoolId2 = allResources.backendAddressPools[1].id;
+    }
+    if (allResources.inboundNatRules[1] != undefined) {
+      networkTestUtil.lbinboundruleId2 = allResources.inboundNatRules[1].id;
+    }
     callback();
   });
 };
@@ -294,6 +304,20 @@ networkTestUtil.prototype.deleteUsedDns = function(groupName, dnszonePrefix, sui
 };
 networkTestUtil.prototype.createTrafficManagerProfile = function(groupName, trafficMPPrefix, profile_status, routing_method, reldns, time_to_live, monitor_protocol, monitor_port, monitor_path, suite, callback) {
   var cmd = util.format('network traffic-manager profile create %s %s -u %s -m %s -r %s -l %s -p %s -o %s -a %s --json', groupName, trafficMPPrefix, profile_status, routing_method, reldns, time_to_live, monitor_protocol, monitor_port, monitor_path).split(' ');
+  testUtils.executeCommand(suite, retry, cmd, function(result) {
+    result.exitStatus.should.equal(0);
+    callback();
+  });
+};
+networkTestUtil.prototype.createVnetWithAddress = function(groupName, vnetPrefix, location, vnetAddressPrefix, suite, callback) {
+  var cmd = util.format('network vnet create %s %s %s -a %s --json', groupName, vnetPrefix, location, vnetAddressPrefix).split(' ');
+  testUtils.executeCommand(suite, retry, cmd, function(result) {
+    result.exitStatus.should.equal(0);
+    callback();
+  });
+};
+networkTestUtil.prototype.createSubnetWithAddress = function(groupName, vnetPrefix, subnetprefix, subnetAddressPrefix, suite, callback) {
+  var cmd = util.format('network vnet subnet create %s %s %s -a %s --json', groupName, vnetPrefix, subnetprefix, subnetAddressPrefix).split(' ');
   testUtils.executeCommand(suite, retry, cmd, function(result) {
     result.exitStatus.should.equal(0);
     callback();

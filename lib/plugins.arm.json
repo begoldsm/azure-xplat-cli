@@ -9482,6 +9482,76 @@
           ]
         },
         {
+          "name": "import",
+          "description": "Uploads the specified the specified file, to the target destination in an Azure Data Lake.",
+          "fullName": "datalakefilesystem import",
+          "usage": "[options] <dataLakeAccountName> <path> <destination>",
+          "filePath": "commands/arm/datalake/datalake._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n --dataLakeAccountName <dataLakeAccountName>",
+              "required": -26,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--dataLakeAccountName",
+              "description": "the Data Lake account name to execute the action on"
+            },
+            {
+              "flags": "-p --path <path>",
+              "required": -11,
+              "optional": 0,
+              "bool": true,
+              "short": "-p",
+              "long": "--path",
+              "description": "the full local path to the file to import (e.g. /someFolder/someFile.txt or C:somefoldersomeFile.txt)"
+            },
+            {
+              "flags": "-d --destination <destination>",
+              "required": -18,
+              "optional": 0,
+              "bool": true,
+              "short": "-d",
+              "long": "--destination",
+              "description": "the full path in the Data Lake where the file should be imported to (e.g. /someFolder/someFile.txt"
+            },
+            {
+              "flags": "-f --force",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-f",
+              "long": "--force",
+              "description": "optionally indicates that the file or folder being created can overwrite the file or folder at path if it already exists (default is false). 'true' must be passed in for the overwrite to work"
+            }
+          ]
+        },
+        {
           "name": "concat",
           "description": "Concatenates the specified list of files into the specified destination file.",
           "fullName": "datalakefilesystem concat",
@@ -9683,8 +9753,78 @@
           ]
         },
         {
+          "name": "export",
+          "description": "Downloads the specified file to the target location.",
+          "fullName": "datalakefilesystem export",
+          "usage": "[options] <dataLakeAccountName> <path> <destination>",
+          "filePath": "commands/arm/datalake/datalake._js",
+          "options": [
+            {
+              "flags": "-v, --verbose",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-v",
+              "long": "--verbose",
+              "description": "use verbose output"
+            },
+            {
+              "flags": "-vv",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "-vv",
+              "description": "more verbose with debug output"
+            },
+            {
+              "flags": "--json",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "long": "--json",
+              "description": "use json output"
+            },
+            {
+              "flags": "-n --dataLakeAccountName <dataLakeAccountName>",
+              "required": -26,
+              "optional": 0,
+              "bool": true,
+              "short": "-n",
+              "long": "--dataLakeAccountName",
+              "description": "the Data Lake account name to execute the action on"
+            },
+            {
+              "flags": "-p --path <path>",
+              "required": -11,
+              "optional": 0,
+              "bool": true,
+              "short": "-p",
+              "long": "--path",
+              "description": "the full path in the Data Lake where the file should be imported to (e.g. /someFolder/someFile.txt"
+            },
+            {
+              "flags": "-d --destination <destination>",
+              "required": -18,
+              "optional": 0,
+              "bool": true,
+              "short": "-d",
+              "long": "--destination",
+              "description": "the full local path to the file to import (e.g. /someFolder/someFile.txt or C:somefoldersomeFile.txt)"
+            },
+            {
+              "flags": "-f --force",
+              "required": 0,
+              "optional": 0,
+              "bool": true,
+              "short": "-f",
+              "long": "--force",
+              "description": "optionally indicates that the file being created can overwrite the file at path if it already exists (default is false)."
+            }
+          ]
+        },
+        {
           "name": "read",
-          "description": "Reads the specified Data Lake file starting at index 0 (or the specified offset) until the length is reached, outputting the results to the console.",
+          "description": "Previews the specified Data Lake file starting at index 0 (or the specified offset) until the length is reached, outputting the results to the console.",
           "fullName": "datalakefilesystem read",
           "usage": "[options] <dataLakeAccountName> <path> <length> <offset>",
           "filePath": "commands/arm/datalake/datalake._js",

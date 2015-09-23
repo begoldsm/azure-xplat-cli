@@ -27138,6 +27138,24 @@
                   "description": "Parent resource of the resource the role was assigned to, if there is any."
                 },
                 {
+                  "flags": "-e --expandPrincipalGroups",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-e",
+                  "long": "--expandPrincipalGroups",
+                  "description": "If specified, returns role assignments directly assigned to the principal as well as assignments to the principal's groups (transitive). Supported only for User Principals."
+                },
+                {
+                  "flags": "-a --includeClassicAdministrators",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-a",
+                  "long": "--includeClassicAdministrators",
+                  "description": "If specified, also returns the subscription classic administrators as role assignments."
+                },
+                {
                   "flags": "--subscription <subscription>",
                   "required": -16,
                   "optional": 0,
@@ -27287,15 +27305,16 @@
           "categories": {
             "changelog": {
               "name": "changelog",
+              "description": "List access change history for the subscription for the specified time i.e. who granted(or revoked) what role to whom at what scope",
               "fullName": "role assignment changelog",
               "usage": "[options] [command]",
               "options": [],
               "commands": [
                 {
                   "name": "list",
-                  "description": "List access change history for the subscription for the specified time i.e. who granted(or revoked) what role to whom at what scope",
+                  "description": "List all access changes",
                   "fullName": "role assignment changelog list",
-                  "usage": "[options]",
+                  "usage": "[options] [b startTime] [e endTime]",
                   "filePath": "commands/arm/role/role.assignment.audit._js",
                   "options": [
                     {
@@ -29935,6 +29954,268 @@
                   "short": "-s",
                   "long": "--subscription",
                   "description": "the subscription id"
+                }
+              ]
+            },
+            {
+              "name": "list-image-publishers",
+              "description": "Lists virtual machine/extension image publishers",
+              "fullName": "vm extension list-image-publishers",
+              "usage": "[options] <location>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-l, --location <location>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-l",
+                  "long": "--location",
+                  "description": "the location"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "list-image-types",
+              "description": "Lists virtual machine extension image types by a publisher",
+              "fullName": "vm extension list-image-types",
+              "usage": "[options] <location> <publisher>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-l, --location <location>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-l",
+                  "long": "--location",
+                  "description": "the location"
+                },
+                {
+                  "flags": "-p, --publisher <publisher>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--publisher",
+                  "description": "the publisher name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "list-image-versions",
+              "description": "Lists virtual machine extension image versions by publisher and type input",
+              "fullName": "vm extension list-image-versions",
+              "usage": "[options] <location> <publisher> <typeName>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-l, --location <location>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-l",
+                  "long": "--location",
+                  "description": "the location"
+                },
+                {
+                  "flags": "-p, --publisher <publisher>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--publisher",
+                  "description": "the publisher name"
+                },
+                {
+                  "flags": "-t, --typeName <typeName>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--typeName",
+                  "description": "the type name"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
+                }
+              ]
+            },
+            {
+              "name": "get-image",
+              "description": "Lists virtual machine extension image versions by publisher, type and version input",
+              "fullName": "vm extension get-image",
+              "usage": "[options] <location> <publisher> <typeName> <version>",
+              "filePath": "commands/arm/vm/vm._js",
+              "options": [
+                {
+                  "flags": "-v, --verbose",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--verbose",
+                  "description": "use verbose output"
+                },
+                {
+                  "flags": "-vv",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "-vv",
+                  "description": "more verbose with debug output"
+                },
+                {
+                  "flags": "--json",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--json",
+                  "description": "use json output"
+                },
+                {
+                  "flags": "-l, --location <location>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-l",
+                  "long": "--location",
+                  "description": "the location"
+                },
+                {
+                  "flags": "-p, --publisher <publisher>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-p",
+                  "long": "--publisher",
+                  "description": "the publisher name"
+                },
+                {
+                  "flags": "-t, --typeName <typeName>",
+                  "required": -16,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-t",
+                  "long": "--typeName",
+                  "description": "the type name"
+                },
+                {
+                  "flags": "-v, --version <version>",
+                  "required": -15,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-v",
+                  "long": "--version",
+                  "description": "the version"
+                },
+                {
+                  "flags": "-s, --subscription <subscription>",
+                  "required": -20,
+                  "optional": 0,
+                  "bool": true,
+                  "short": "-s",
+                  "long": "--subscription",
+                  "description": "the subscription identifier"
                 }
               ]
             }

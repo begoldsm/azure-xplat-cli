@@ -9271,7 +9271,7 @@
           "categories": {
             "job": {
               "name": "job",
-              "description": "Commands to manage your DataLake Analytics Jobs",
+              "description": "Commands to manage your Data Lake Analytics Jobs",
               "fullName": "datalake analytics job",
               "usage": "[options] [command]",
               "options": [],
@@ -9651,7 +9651,7 @@
             },
             "catalog": {
               "name": "catalog",
-              "description": "Commands to manage your DataLake Analytics Catalog",
+              "description": "Commands to manage your Data Lake Analytics Catalog",
               "fullName": "datalake analytics catalog",
               "usage": "[options] [command]",
               "options": [],
@@ -9986,7 +9986,7 @@
             },
             "account": {
               "name": "account",
-              "description": "Commands to manage your DataLake Analytics accounts",
+              "description": "Commands to manage your Data Lake Analytics accounts",
               "fullName": "datalake analytics account",
               "usage": "[options] [command]",
               "options": [],

@@ -1210,7 +1210,7 @@
             },
             {
               "name": "set",
-              "description": "Update a storage account",
+              "description": "Update a storage account (Only one property can be updated at a time)",
               "fullName": "storage account set",
               "usage": "[options] <name>",
               "filePath": "commands/storage/storage.account._js",
@@ -1239,6 +1239,30 @@
                   "bool": true,
                   "long": "--json",
                   "description": "use json output"
+                },
+                {
+                  "flags": "--custom-domain <customDomain>",
+                  "required": -17,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--custom-domain",
+                  "description": "the custom domain"
+                },
+                {
+                  "flags": "--subdomain",
+                  "required": 0,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--subdomain",
+                  "description": "whether uses the 'asverify' subdomain to preregister the custom domain"
+                },
+                {
+                  "flags": "--tags <tags>",
+                  "required": -8,
+                  "optional": 0,
+                  "bool": true,
+                  "long": "--tags",
+                  "description": "the account tags. Tags are key=value pairs and separated with semicolon(;)"
                 },
                 {
                   "flags": "--type <type>",
@@ -10149,7 +10173,7 @@
                 },
                 {
                   "name": "create",
-                  "description": "Creates a DataLakeAnalytics Account",
+                  "description": "Creates a Data Lake Analytics Account",
                   "fullName": "datalake analytics account create",
                   "usage": "[options] <dataLakeAnalyticsAccountName> <location> <resourceGroup> <defaultGroup> <tags>",
                   "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
@@ -10228,7 +10252,7 @@
                 },
                 {
                   "name": "set",
-                  "description": "Creates a DataLakeAnalytics Account",
+                  "description": "Updates an existing Data Lake Analytics Account",
                   "fullName": "datalake analytics account set",
                   "usage": "[options] <dataLakeAnalyticsAccountName> <resourceGroup> <defaultDataLake> <tags>",
                   "filePath": "commands/arm/datalakeanalytics/datalakeanalytics._js",
